@@ -84,7 +84,7 @@ let products = [
         "subject": 'Engineering',
         "location": "Hatta",
         "price": 13,
-        "image": "https://www.topuniversities.com/sites/default/files/styles/lead_article_image/public/blogs/lead-images/engineering_imagery.jpg",
+        "image": "https://engineeringselection.com/blog/wp-content/uploads/2017/06/engineering-blueprint.jpg",
         "spaces":5
     },
     {
@@ -92,7 +92,7 @@ let products = [
         "subject": 'Business Technology',
         "location": "Al Madam",
         "price": 25,
-        "image": "http://www.techconnections.org/wp-content/uploads/2018/10/tech-for-biz.jpg",
+        "image": "https://media.bizj.us/view/img/5157101/gettyimages494390245*1200xx2122-1194-0-111.jpg",
         "spaces":5
     }
 ]
