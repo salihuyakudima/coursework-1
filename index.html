@@ -16,7 +16,21 @@
                     <h4>{{title}}</h4>
                 </div>
                 <div class="col-6">
-                    <h4></h4>
+                    <div class="row">
+                        <div class="col">
+                            Sort
+                            <label>
+                                <input name="sort" value="price" v-model="sort" type="radio">Price
+                            </label>
+                        </div>
+                        <div class="col">
+                            Order
+                            <label>
+                                <input name="order" value="asc" v-model="order" type="radio">Ascending<br>
+                                <input name="order" value="des" v-model="order" type="radio">Descending
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-2">
                     <button class="btn btn-primary" v-on:click="showCheckout" v-if="cart.length > 0">
@@ -29,7 +43,7 @@
             </Div>
             
             <div class="row">
-                <div class="col-3" v-for="product in products">
+                <div class="col-3" v-for="product in sortproducts(sort, order)">
                     <div class="card">
                         <img v-bind:src="product.image" style="height: 200px;">
                         <div class="card-body">
@@ -54,7 +68,8 @@
                     products: products,
                     cart: [],
                     lessonStore: true,
-
+                    sort: "price",
+                    order: "asc"
                 },
                 methods:{
                     addToCart: function (lesson) {
@@ -76,6 +91,28 @@
                     showCheckout: function(){
                         this.lessonStore = this.lessonStore ? false : true;
                     },
+                    sortproducts: function(sort, order){
+                        let productsArray = this.products.slice(0);
+                            if (order == "asc") {
+                                function compare(a, b) {
+                                    if (a.price > b.price)
+                                        return 1
+                                    if (a.price < b.price)
+                                        return -1
+                                    return 0
+                                }
+                                return productsArray.sort(compare)
+                            } if (order == "des") {
+                                function comparePrice(a, b) {
+                                    if (a.price > b.price)
+                                        return -1
+                                    if (a.price < b.price)
+                                        return 1
+                                    return 0
+                                }
+                                return productsArray.sort(compare)
+                            }
+                    }
                 },
                 computed:{
                     cartItemCount: function () {
