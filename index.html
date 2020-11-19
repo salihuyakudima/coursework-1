@@ -11,9 +11,25 @@
     </head>
     <body>
         <div id="app">
-            <h4 class="m-3">{{title}}</h4>
+            <Div class="row m-3">
+                <div class="col-3">
+                    <h4>{{title}}</h4>
+                </div>
+                <div class="col-6">
+                    <h4></h4>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" v-on:click="showCheckout" v-if="cart.length > 0">
+                        {{ cartItemCount }} Cart
+                    </button>
+                    <button class="btn btn-secondary" disabled v-else>
+                        {{ cartItemCount }} Cart
+                    </button>
+                </div>
+            </Div>
+            
             <div class="row">
-                <div class="col-3 mb-3" v-for="product in products">
+                <div class="col-3" v-for="product in products">
                     <div class="card">
                         <img v-bind:src="product.image" style="height: 200px;">
                         <div class="card-body">
@@ -36,7 +52,9 @@
                 data:{
                     title: "Lessons",
                     products: products,
-                    cart: []
+                    cart: [],
+                    lessonStore: true,
+
                 },
                 methods:{
                     addToCart: function (lesson) {
@@ -53,6 +71,15 @@
                             }
                         }
                         return count;
+                    },
+
+                    showCheckout: function(){
+                        this.lessonStore = this.lessonStore ? false : true;
+                    },
+                },
+                computed:{
+                    cartItemCount: function () {
+                        return this.cart.length;
                     },
                 }
                 
