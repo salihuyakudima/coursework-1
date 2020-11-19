@@ -11,7 +11,7 @@
     </head>
     <body>
         <div id="app">
-            <div v-if="lessonStore">
+            <div v-if="productStore">
                 <Div class="row m-3">
                     <div class="col-3">
                         <h4>{{title}}</h4>
@@ -109,7 +109,7 @@
                     title: "Lessons",
                     products: products,
                     cart: [],
-                    lessonStore: true,
+                    productStore: true,
                     sort: "price",
                     order: "asc",
                     orders:{
@@ -135,7 +135,7 @@
                     },
 
                     showCheckout: function(){
-                        this.lessonStore = this.lessonStore ? false : true;
+                        this.productStore = this.productStore ? false : true;
                     },
                     sortproducts: function(sort, order){
                         let productsArray = this.products.slice(0);
