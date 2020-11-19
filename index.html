@@ -62,7 +62,7 @@
             <div v-else>
                 <div class="row">
                     <div class="col-6">
-                        <h1 class="text-center">Cart</h1>
+                        <h1 class="text-center">Checkout</h1>
                     </div>
                     <div class="col-6">
                         <button class="btn btn-primary" v-on:click="showCheckout">
@@ -70,7 +70,21 @@
                         </button>
                     </div>
                 </div>
-                
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="product in cart">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img v-bind:src="product.image" width="50px" height="50px">
+                                </div>
+                                <div class="col-4">
+                                    <p>{{product.subject}}</p>
+                                </div>
+                                <b style="cursor: pointer;" class="text-danger">x</b>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <form>
                     <div class="m-5">
                         <div class="form-group">
