@@ -20,6 +20,9 @@
                             <h5 class="card-title">{{product.subject}}</h5>
                             <p class="card-text">Price: {{product.price}}</p>
                             <p class="card-text">Location: {{product.location}}</p>
+                            <p class="card-text">Space left: {{product.spaces - cartItems(product)}}</p>
+                            <button class="btn btn-primary" v-on:click="addToCart(product)" v-if="canAddToCart(product)">Add to Cart</button>
+                            <button class="btn btn-secondary" disabled v-else>Add to cart</button>
                         </div>
                     </div>
                 </div>
@@ -33,7 +36,25 @@
                 data:{
                     title: "Lessons",
                     products: products,
+                    cart: []
                 },
+                methods:{
+                    addToCart: function (lesson) {
+                        this.cart.push(lesson);
+                    },
+                    canAddToCart: function (lesson) {
+                        return lesson.spaces > this.cartItems(lesson);
+                    },
+                    cartItems(id) {
+                        let count = 0;
+                        for (let i = 0; i < this.cart.length; i++) {
+                            if (this.cart[i] === id) {
+                                count++;
+                            }
+                        }
+                        return count;
+                    },
+                }
                 
             })
         </script>
