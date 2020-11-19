@@ -11,51 +11,79 @@
     </head>
     <body>
         <div id="app">
-            <Div class="row m-3">
-                <div class="col-3">
-                    <h4>{{title}}</h4>
-                </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col">
-                            Sort
-                            <label>
-                                <input name="sort" value="price" v-model="sort" type="radio">Price
-                            </label>
+            <div v-if="lessonStore">
+                <Div class="row m-3">
+                    <div class="col-3">
+                        <h4>{{title}}</h4>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col">
+                                Sort
+                                <label>
+                                    <input name="sort" value="price" v-model="sort" type="radio">Price
+                                </label>
+                            </div>
+                            <div class="col">
+                                Order
+                                <label>
+                                    <input name="order" value="asc" v-model="order" type="radio">Ascending<br>
+                                    <input name="order" value="des" v-model="order" type="radio">Descending
+                                </label>
+                            </div>
                         </div>
-                        <div class="col">
-                            Order
-                            <label>
-                                <input name="order" value="asc" v-model="order" type="radio">Ascending<br>
-                                <input name="order" value="des" v-model="order" type="radio">Descending
-                            </label>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary" v-on:click="showCheckout" v-if="cart.length > 0">
+                            {{ cartItemCount }} Cart
+                        </button>
+                        <button class="btn btn-secondary" disabled v-else>
+                            {{ cartItemCount }} Cart
+                        </button>
+                    </div>
+                </Div>
+                
+                <div class="row">
+                    <div class="col-3" v-for="product in sortproducts(sort, order)">
+                        <div class="card">
+                            <img v-bind:src="product.image" style="height: 200px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.subject}}</h5>
+                                <p class="card-text">Price: {{product.price}}</p>
+                                <p class="card-text">Location: {{product.location}}</p>
+                                <p class="card-text">Space left: {{product.spaces - cartItems(product)}}</p>
+                                <button class="btn btn-primary" v-on:click="addToCart(product)" v-if="canAddToCart(product)">Add to Cart</button>
+                                <button class="btn btn-secondary" disabled v-else>Add to cart</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
-                    <button class="btn btn-primary" v-on:click="showCheckout" v-if="cart.length > 0">
-                        {{ cartItemCount }} Cart
-                    </button>
-                    <button class="btn btn-secondary" disabled v-else>
-                        {{ cartItemCount }} Cart
-                    </button>
-                </div>
-            </Div>
-            
-            <div class="row">
-                <div class="col-3" v-for="product in sortproducts(sort, order)">
-                    <div class="card">
-                        <img v-bind:src="product.image" style="height: 200px;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{product.subject}}</h5>
-                            <p class="card-text">Price: {{product.price}}</p>
-                            <p class="card-text">Location: {{product.location}}</p>
-                            <p class="card-text">Space left: {{product.spaces - cartItems(product)}}</p>
-                            <button class="btn btn-primary" v-on:click="addToCart(product)" v-if="canAddToCart(product)">Add to Cart</button>
-                            <button class="btn btn-secondary" disabled v-else>Add to cart</button>
-                        </div>
+            </div>
+            <div v-else>
+                <div class="row">
+                    <div class="col-6">
+                        <h1 class="text-center">Cart</h1>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-primary" v-on:click="showCheckout">
+                            {{ cartItemCount }} Shop
+                        </button>
                     </div>
                 </div>
+                
+                <form>
+                    <div class="m-5">
+                        <div class="form-group">
+                            <input v-model="orders.fullname" class="form-control" placeholder="Fullname">
+                        </div>
+                        <div class="form-group">
+                            <input v-model.number="orders.phone" class="form-control" placeholder="Phone number">
+                        </div>
+                        <button class="btn btn-primary btn-block" v-if="checkoutfilled" v-on:click="checkout()">Checkout</button>
+                        <button class="btn btn-secondary btn-block" disabled v-else>Checkout</button>
+                        
+                    </div>
+                </form>
             </div>
         </div>
         
@@ -69,7 +97,11 @@
                     cart: [],
                     lessonStore: true,
                     sort: "price",
-                    order: "asc"
+                    order: "asc",
+                    orders:{
+                        name: "",
+                        phone: ""
+                    }
                 },
                 methods:{
                     addToCart: function (lesson) {
@@ -117,6 +149,14 @@
                 computed:{
                     cartItemCount: function () {
                         return this.cart.length;
+                    },
+                    checkoutfilled() {
+                        if (this.orders.fullname && this.orders.phone) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
                     },
                 }
                 
