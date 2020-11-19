@@ -7,19 +7,34 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="products.js"></script>
     </head>
     <body>
         <div id="app">
             <h4 class="m-3">{{title}}</h4>
-            
+            <div class="row">
+                <div class="col-3 mb-3" v-for="product in products">
+                    <div class="card">
+                        <img v-bind:src="product.image" style="height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.subject}}</h5>
+                            <p class="card-text">Price: {{product.price}}</p>
+                            <p class="card-text">Location: {{product.location}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <script>
             let app = new Vue({
                 el: "#app",
+                
                 data:{
                     title: "Lessons",
-                }
+                    products: products,
+                },
+                
             })
         </script>
     </body>
